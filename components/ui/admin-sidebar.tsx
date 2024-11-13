@@ -2,9 +2,8 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
     LayoutDashboard,
     Bell,
@@ -15,35 +14,41 @@ import {
     Settings,
     ChevronDown,
     BarChart,
-    FileText,
     AlertTriangle,
-    MessageSquare
+    MessageSquare,
+    HelpCircle,
+    User,
+    ChevronUp,
+    User2
 } from "lucide-react"
 import {
     Sidebar,
     SidebarContent,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuItem,
     SidebarMenuButton,
     SidebarProvider,
-    SidebarTrigger,
+    SidebarFooter
 } from "@/components/ui/sidebar"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "./dropdown-menu"
+import { Button } from "./button"
+import { signOutAction } from "@/app/actions/auth"
+import toast from "react-hot-toast"
 
 const navItems = [
     {
         name: "Dashboard",
-        href: "/app/dashboard/admin",
+        href: "/app/account/admin",
         icon: LayoutDashboard,
     },
     {
         name: "Alerts",
         icon: Bell,
         subItems: [
-            { name: "Manage Alerts", href: "/app/dashboard/admin/alerts" },
+            { name: "Manage Alerts", href: "/app/account/admin/alerts" },
             { name: "Alert History", href: "/admin/alerts/history" },
             { name: "Create Alert", href: "/admin/alerts/create" },
         ],
@@ -99,13 +104,36 @@ const navItems = [
     },
     {
         name: "Settings",
-        href: "/admin/settings",
+        href: "/app/account/admin/settings",
         icon: Settings,
+    },
+    {
+        name: "Help & Support",
+        href: "/app/account/admin/help",
+        icon: HelpCircle,
+    },
+    {
+        name: "Profile",
+        href: "/app/account/admin/profile",
+        icon: User,
     },
 ]
 
 export function AdminSidebar() {
     const pathname = usePathname()
+    const router = useRouter()
+
+    const signOut = async () => {
+        const { success, message } = await signOutAction()
+
+        if(!success){
+            toast.error(message)
+            return
+        }
+
+        router.replace("/")
+
+    }
 
     return (
         <SidebarProvider>
@@ -163,6 +191,34 @@ export function AdminSidebar() {
                         </SidebarGroup>
                     ))}
                 </SidebarContent>
+                <SidebarFooter>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <SidebarMenuButton>
+                                        <User2 /> Username
+                                        <ChevronUp className="ml-auto" />
+                                    </SidebarMenuButton>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    side="top"
+                                    className="w-[--radix-popper-anchor-width]"
+                                >
+                                    <DropdownMenuItem>
+                                        <span>Account</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <span>Billing</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Button className="w-full" onClick={signOut}>Sign Out</Button>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
             </Sidebar>
         </SidebarProvider>
     )

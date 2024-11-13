@@ -34,7 +34,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent} from "@/components
 const navItems = [
     {
         name: "Home",
-        href: "/app/dashboard/user",
+        href: "/app/account/user",
         icon: LayoutDashboard,
     },
     {
@@ -84,27 +84,27 @@ const navItems = [
     },
      {
         name: "Emergency Contacts",
-        href: "/emergency-contacts",
+         href: "/app/account/user/emergency-contacts",
         icon: Phone,
     },
     {
         name: "Notifications",
-        href: "/emergency-contacts",
+        href: "/app/account/user/notifications",
         icon: Bell,
     },
     {
         name: "Settings",
-        href: "/emergency-contacts",
+        href: "/app/account/user/settings",
         icon: Settings,
     },
     {
         name: "Help & Support",
-        href: "/help",
+        href: "/app/account/user/help",
         icon: HelpCircle,
     },
     {
         name: "Profile",
-        href: "/app/dashboard/user/profile",
+        href: "/app/account/user/profile",
         icon: User,
     },
 ]
@@ -127,11 +127,11 @@ export function UserSidebar() {
                         <span className="text-lg font-bold">Salama360</span>
                     </Link>
                 </SidebarHeader>
-                <SidebarContent>
+                <SidebarContent className="px-4">
                     {navItems.map((item, index) => (
                         <>
                             {item.subItems ? (
-                                <SidebarMenu>
+                                <SidebarMenu key={item.name}>
                                     <Collapsible 
                                         open={isOpen && activeTab === index} 
                                         onOpenChange={() => handleMenuToggle(index)}
@@ -171,7 +171,7 @@ export function UserSidebar() {
                                     </Collapsible>
                                 </SidebarMenu>
                             ) : (
-                                <SidebarMenuItem className="list-none">
+                                    <SidebarMenuItem className="list-none" key={item.name}>
                                     <Link
                                         href={item.href}
                                         className={cn(

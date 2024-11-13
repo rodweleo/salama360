@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import RootNav from "@/components/ui/root-nav"
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -57,15 +57,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <RootNav />
-        {children}
-        <footer className="bg-background py-6">
-          <div className="container mx-auto text-center">
-            <p>&copy; 2024 Salama360. All rights reserved.</p>
-          </div>
-        </footer>
+        <main className="bg-gray-100 min-h-screen">
+          {children}
+          <Toaster />
+        </main>
       </body>
     </html>
   );

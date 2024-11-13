@@ -1,11 +1,76 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Bell, Map, Shield } from "lucide-react"
+import { createClient } from "@/utils/supabase/client"
+import RootNav from "@/components/ui/root-nav"
 
 export default function Home() {
+
+  const supabase = createClient();
+
+  async function updateCurrentLocation(slm_usr: string | number, lat, lng) {
+    try {
+      // Step 1: Check if the device exists in the current_locations table
+      const { data: existingRecord, error: selectError } = await supabase
+        .from('slm_user_curr_locations')
+        .select('slm_usr')
+        .eq('slm_usr', slm_usr)
+        .single();
+
+      if (selectError) {
+        console.error("Error checking existence:", selectError.message);
+        return;
+      }
+
+      if (existingRecord) {
+        // Step 2: Update the existing record
+        const { error: updateError } = await supabase
+          .from('slm_user_curr_locations')
+          .update({
+            latitude: lat,
+            longitude: lng,
+            updated_at: new Date()
+          })
+          .eq('slm_usr', slm_usr);
+
+        if (updateError) {
+          console.error("Error updating location:", updateError.message);
+        } else {
+          console.log("Location updated successfully");
+        }
+      } else {
+        // Step 3: Insert a new record if the device_id does not exist
+        const { error: insertError } = await supabase
+          .from('slm_user_curr_locations')
+          .insert({
+            slm_usr: slm_usr,
+            latitude: lat,
+            longitude: lng,
+            updated_at: new Date()
+          });
+
+        if (insertError) {
+          console.error("Error inserting location:", insertError.message);
+        } else {
+          console.log("New location inserted successfully");
+        }
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+    
+  }
+    
+
+  navigator.geolocation.watchPosition((position: GeolocationPosition) => {
+    updateCurrentLocation(1, position.coords.latitude, position.coords.longitude)
+  })
   return (
     <div className="flex flex-col min-h-screen">
+      <RootNav/>
       <main className="flex-grow">
         <section className="py-20">
           <div className="container mx-auto text-center">

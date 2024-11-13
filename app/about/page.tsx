@@ -2,11 +2,12 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, Target, Lightbulb } from "lucide-react"
+import RootNav from "@/components/ui/root-nav"
 
 export default function AboutPage() {
     return (
         <div className="flex flex-col min-h-screen">
-
+            <RootNav />
             <main className="flex-grow">
                 <section className="bg-gradient-to-r from-primary to-primary-foreground text-white py-20">
                     <div className="container mx-auto text-center">
@@ -27,7 +28,7 @@ export default function AboutPage() {
                                     is caught off guard by a disaster.
                                 </p>
                                 <p className="text-lg">
-                                    Since our inception, we've been dedicated to developing cutting-edge technology that not only
+                                    Since our inception, we&apos;ve been dedicated to developing cutting-edge technology that not only
                                     predicts disasters with unprecedented accuracy but also provides actionable insights to save lives
                                     and minimize damage.
                                 </p>
@@ -87,7 +88,7 @@ export default function AboutPage() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    We're committed to pushing the boundaries of what's possible in disaster prediction and response through continuous innovation.
+                                    We&apos;re committed to pushing the boundaries of what&apos;s possible in disaster prediction and response through continuous innovation.
                                 </CardContent>
                             </Card>
                         </div>
@@ -98,7 +99,7 @@ export default function AboutPage() {
                     <div className="container mx-auto text-center">
                         <h2 className="text-3xl font-bold mb-8">Join Us in Making a Difference</h2>
                         <p className="text-xl mb-8 max-w-3xl mx-auto">
-                            Whether you're a community leader, emergency responder, or concerned citizen, DisasterGuard is here to
+                            Whether you&apos;re a community leader, emergency responder, or concerned citizen, DisasterGuard is here to
                             empower you with the tools and knowledge to face natural disasters head-on.
                         </p>
                         <Button size="lg" asChild>

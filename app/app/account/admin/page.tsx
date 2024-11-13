@@ -1,15 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { MapPin, AlertTriangle, Truck, Users, Activity } from "lucide-react"
+import { AlertTriangle, Truck, Users, Activity } from "lucide-react"
+import {MapContainer} from "@/components/ui/map-container"
 
 export default function AdminDashboard() {
-    const [activeDisaster, setActiveDisaster] = useState("flood")
-
     const disasters = {
         flood: { color: "bg-blue-500", probability: 85 },
         drought: { color: "bg-yellow-500", probability: 60 },
@@ -25,15 +23,13 @@ export default function AdminDashboard() {
                         <CardTitle>Disaster-Prone Areas & Evacuation Routes</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="bg-gray-200 h-[400px] rounded-lg flex items-center justify-center">
-                            <MapPin className="w-12 h-12 text-gray-400" />
-                            <span className="ml-2 text-gray-600">Interactive Map Here</span>
+                        <div className="bg-gray-200 h-[800px] rounded-lg flex items-center justify-center">
+                           <MapContainer/>
                         </div>
                     </CardContent>
                 </Card>
 
-                {/* Alerts Section */}
-                <Card>
+                <Card className="h-fit">
                     <CardHeader>
                         <CardTitle>Early Warning Alerts</CardTitle>
                     </CardHeader>
@@ -53,6 +49,18 @@ export default function AdminDashboard() {
                         </ul>
                     </CardContent>
                 </Card>
+                <Card className="md:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Current Weather Conditions</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        
+                    </CardContent>
+                </Card>
+
+
+                {/* Alerts Section */}
+                
 
                 {/* Resources Tracker */}
                 <Card>

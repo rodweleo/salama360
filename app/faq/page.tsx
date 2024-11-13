@@ -97,7 +97,7 @@ export default function FAQPage() {
 
                 <section className="py-16 bg-muted">
                     <div className="container mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">Didn't find what you're looking for?</h2>
+                        <h2 className="text-3xl font-bold mb-8">Didn&apos;t find what you&apos;re looking for?</h2>
                         <p className="text-xl mb-8 max-w-3xl mx-auto">
                             Our support team is always here to help. Reach out to us for any additional questions or concerns.
                         </p>

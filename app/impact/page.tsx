@@ -117,7 +117,7 @@ export default function ImpactPage() {
                     <div className="container mx-auto text-center">
                         <h2 className="text-3xl font-bold mb-8">Join Us in Making a Global Impact</h2>
                         <p className="text-xl mb-8 max-w-3xl mx-auto">
-                            By choosing DisasterGuard, you're not just protecting your community – you're joining a global movement
+                            By choosing DisasterGuard, you&apos;re not just protecting your community – you&apos;re joining a global movement
                             to create a safer, more resilient world in the face of natural disasters.
                         </p>
                         <Button size="lg" asChild>

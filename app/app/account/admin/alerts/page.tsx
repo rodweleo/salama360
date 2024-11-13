@@ -25,6 +25,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
+
 export const description = "A donut chart with text"
 const chartData = [
     { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -60,7 +61,8 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function Page(){
-    
+
+
     return (
         <div className="space-y-4">
             <section>

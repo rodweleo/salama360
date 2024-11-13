@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { AlertTriangle, Mail, Phone, MapPin, MessageSquare, Send } from "lucide-react"
+import { Mail, Phone, MapPin, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -35,7 +35,7 @@ export default function ContactPage() {
                 <section className="bg-gradient-to-r from-primary to-primary-foreground text-white py-20">
                     <div className="container mx-auto text-center">
                         <h1 className="text-4xl md:text-6xl font-bold mb-4">Contact Us</h1>
-                        <p className="text-xl mb-8">We're here to help. Reach out to us for any inquiries or support.</p>
+                        <p className="text-xl mb-8">We&apos;re here to help. Reach out to us for any inquiries or support.</p>
                     </div>
                 </section>
 
@@ -92,7 +92,7 @@ export default function ContactPage() {
                                 <Card>
                                     <CardHeader>
                                         <CardTitle>Send us a Message</CardTitle>
-                                        <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+                                        <CardDescription>Fill out the form below and we&apos;ll get back to you as soon as possible.</CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -157,7 +157,7 @@ export default function ContactPage() {
                     <div className="container mx-auto text-center">
                         <h2 className="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
                         <p className="text-xl mb-8 max-w-3xl mx-auto">
-                            Can't find the answer you're looking for? Check out our FAQ section for more information.
+                            Can&apos;t find the answer you&apos;re looking for? Check out our FAQ section for more information.
                         </p>
                         <Button size="lg" asChild>
                             <Link href="/faq">View FAQ</Link>
