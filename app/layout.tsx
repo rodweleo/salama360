@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
+import RootFooterSection from "@/components/ui/root-footer-section";
+import LoginModal from "@/components/login-modal";
+import Providers from "@/components/providers"
+import RootNav from "@/components/ui/root-nav";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,20 +21,20 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Salama360",
   description: "Salama360 is an AI-driven disaster preparedness platform designed to predict natural disasters like floods, droughts, and landslides in Kenya. By leveraging historical data, real-time weather reports, and geospatial data, JihadharAI provides early warning alerts via SMS and mobile applications, ensuring that communities, including those in remote areas, have timely information to prepare. The platform also features real-time evacuation route planning and disaster response coordination, tracking resources and mobilizing volunteers for effective crisis management. With a commitment to inclusivity and data privacy, JihadharAI is accessible in low-data settings and prioritizes the protection and dignity of vulnerable populations. This innovative solution is scalable across regions, reliable even in low-connectivity areas, and fosters community resilience by engaging local volunteers across sectors like first aid, shelter provision, and transportation. JihadharAI empowers communities, mitigates the human impact of disasters, and strengthens Kenya's disaster response framework through AI and community-driven support.",
-  keywords:[
-    "Disaster Preparedness", 
-    "AI", 
-    "Disaster Prediction", 
-    "Community Engagement", 
-    "Volunteer Mobilization", 
-    "Kenya", 
-    "Early Warning System", 
-    "Emergency Response", 
-    "Data Privacy", 
-    "Humanitarian Technology", 
-    "Resilience", 
-    "Geospatial Data", 
-    "SMS Alerts", 
+  keywords: [
+    "Disaster Preparedness",
+    "AI",
+    "Disaster Prediction",
+    "Community Engagement",
+    "Volunteer Mobilization",
+    "Kenya",
+    "Early Warning System",
+    "Emergency Response",
+    "Data Privacy",
+    "Humanitarian Technology",
+    "Resilience",
+    "Geospatial Data",
+    "SMS Alerts",
     "Evacuation Planning"
   ],
   openGraph: {
@@ -40,7 +44,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "", 
+        url: "",
         width: 800,
         height: 600,
         alt: "Salama360 - AI-Powered Disaster Prediction & Alert System",
@@ -49,19 +53,25 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 `}
       >
-        <main className="bg-gray-100 min-h-screen">
-          {children}
-          <Toaster />
+        <main className="min-h-screen">
+          <Providers>
+            <RootNav />
+            {children}
+            <Toaster />
+            <RootFooterSection />
+            <LoginModal />
+          </Providers>
         </main>
       </body>
     </html>

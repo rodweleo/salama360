@@ -3,12 +3,15 @@
 import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { SearchBox, Geocoder } from "@mapbox/search-js-react";
+import { SearchBox } from "@mapbox/search-js-react";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useVolunteersLocations } from "@/hooks/use-volunteers-locations"
+import toast from 'react-hot-toast';
+import mapDirections from '@/utils/mapbox/directions';
+import { useQuery } from '@tanstack/react-query';
+import getRoute from '@/functions/getRoute';
 
-export const accessToken = (mapboxgl.accessToken =
-    "pk.eyJ1Ijoicm9kd2VsZW8iLCJhIjoiY20ycHR0NWw1MHV2ajJqc2J5NWtwaDJhNCJ9.wR5dBffxNY6dcCJ1NvANVQ");
+
+export const accessToken: string = "pk.eyJ1Ijoicm9kd2VsZW8iLCJhIjoiY20ycHR0NWw1MHV2ajJqc2J5NWtwaDJhNCJ9.wR5dBffxNY6dcCJ1NvANVQ"
 
 type CoordinatesProps = {
     latitude: number;
@@ -23,18 +26,29 @@ const iconMap: Record<string, string> = {
     default: "/icons/icons8-location-94.png",   // Path to default icon
 };
 
+
 const MapContainer = ({ data, onLoad, onFeatureClick }: {
     data?: [];
     onLoad?: () => void;
     onFeatureClick?: () => void;
 }) => {
-    const mapContainer = useRef<HTMLDivElement>(null);
+    const mapContainer = useRef<HTMLDivElement | null>(null);
     const [userCurrentPosition, setUserCurrentPosition] = useState<CoordinatesProps | null>(null);
     const mapInstanceRef = useRef<mapboxgl.Map | null>(null);
     const [inputValue, setInputValue] = useState("");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
+    const [clickedPoints, setClickedPoints] = useState([]);
 
-    const { locations } = useVolunteersLocations()
+    const { data: routeData, error } = useQuery({
+        queryKey: ["routeData"],
+        queryFn: getRoute
+    })
+
+    if (error) {
+        toast.error(error.message)
+    }
+
+    mapboxgl.accessToken = "pk.eyJ1Ijoicm9kd2VsZW8iLCJhIjoiY20ycHR0NWw1MHV2ajJqc2J5NWtwaDJhNCJ9.wR5dBffxNY6dcCJ1NvANVQ"
 
     const floodZone = {
         type: 'Feature',
@@ -120,15 +134,70 @@ const MapContainer = ({ data, onLoad, onFeatureClick }: {
         setMarkers(newMarkers);
     };
 
+    const addRouteToMap = (routeData: any) => {
+        if (routeData) {
+
+            mapInstanceRef.current!.addSource("route", {
+                type: 'geojson',
+                data: {
+                    type: 'Feature',
+                    properties: {},
+                    geometry: routeData.routes[0].geometry,
+                },
+            })
+
+            // Add a layer to display the route
+            mapInstanceRef.current!.addLayer({
+                id: 'route',
+                type: 'line',
+                source: 'route',
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round',
+                },
+                paint: {
+                    'line-color': '#0074D9',
+                    'line-width': 4,
+                },
+            });
+
+            // Adjust the map bounds to fit the route
+            const coordinates = routeData.routes[0].geometry.coordinates;
+            const bounds = coordinates.reduce((bounds, coord) => bounds.extend(coord), new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+            mapInstanceRef.current!.fitBounds(bounds, { padding: 20 });
+
+        }
+    }
+
+    const handleMapClick = (event) => {
+        const { lng, lat } = event.lngLat;
+
+        setClickedPoints((prevPoints) => {
+            const newPoints = [...prevPoints, { lng, lat }];
+
+            // If two points are selected, fetch and display the route
+            if (newPoints.length === 2) {
+                addRouteToMap(newPoints[0], newPoints[1]);
+                return []; // Reset points after calculating the route
+            }
+
+            return newPoints;
+        });
+    };
+
     useEffect(() => {
         // if (!mapContainer.current) return;
 
         mapInstanceRef.current = new mapboxgl.Map({
             container: mapContainer.current as HTMLElement,
-            style: 'mapbox://styles/mapbox/streets-v11',  
+            style: 'mapbox://styles/mapbox/streets-v11',
             center: userCurrentPosition ? [userCurrentPosition.longitude, userCurrentPosition.latitude] : [36.8219, -1.2921],
             zoom: 12
         });
+
+
+        //adding the direction functionality
+        mapInstanceRef.current.addControl(mapDirections, "top-left")
 
         mapInstanceRef.current.addControl(new mapboxgl.NavigationControl());
         mapInstanceRef.current.addControl(new mapboxgl.GeolocateControl({
@@ -138,6 +207,8 @@ const MapContainer = ({ data, onLoad, onFeatureClick }: {
             trackUserLocation: true,
             showUserHeading: true
         }));
+
+
 
         mapInstanceRef.current.on('load', () => {
             // Add the flood zone as a source
@@ -178,54 +249,57 @@ const MapContainer = ({ data, onLoad, onFeatureClick }: {
                     'line-width': 2
                 }
             });
+
+            addRouteToMap(routeData)
         });
 
+        // mapInstanceRef.current.on("click", handleMapClick)
+
+        const positionOptions: PositionOptions = {
+            enableHighAccuracy: true,
+            maximumAge: 30000,
+            timeout: 27000
+        }
         // Set user’s current location
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.watchPosition((position: GeolocationPosition) => {
             const coordinates = {
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude
             };
             setUserCurrentPosition(coordinates);
-        });
+        }, (error) => {
+            toast.error(`Sorry, no position available: ERROR(${error.code}): ${error.message}`)
+        }, positionOptions);
+
 
         return () => {
             if (mapInstanceRef.current) {
                 mapInstanceRef.current.remove();
             }
         };
-    }, []);
-
-    useEffect(() => {
-
-        if(locations.length > 0){
-            updateMarkers(mapInstanceRef.current!, locations)
-
-        }
-    }, [locations])
+    }, [routeData]);
 
     return (
         <div className="relative h-full w-full">
-            <div className="hidden">
-                <Geocoder
-                accessToken={accessToken}
-                options={{
-                    language: 'en',
-                    country: 'KE'
-                }}
-            />
-                <SearchBox
-                    accessToken={accessToken}
-                    map={mapInstanceRef.current}
-                    mapboxgl={mapboxgl}
-                    value={inputValue}
-                    onChange={(d) => {
-                        setInputValue(d);
-                    }}
-                    marker
-                />
+            <div className="w-full">
+                <div className="absolute top-0 z-40 m-5 w-[200px]">
+                    <SearchBox
+                        accessToken={accessToken}
+                        map={mapInstanceRef.current!}
+                        mapboxgl={mapboxgl}
+                        value={inputValue}
+                        onChange={(d) => {
+                            setInputValue(d);
+                        }}
+                        marker
+                        options={{
+                            language: 'en',
+                            country: 'KE'
+                        }}
+                    />
+                </div>
             </div>
-            
+
             <div ref={mapContainer} className='h-full w-full' />
         </div>
     );

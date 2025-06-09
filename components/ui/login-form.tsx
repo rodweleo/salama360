@@ -12,6 +12,7 @@ import { login } from "@/app/actions/auth"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import { Loader2 } from "lucide-react"
+import useLoginModal from "@/hooks/use-login-modal"
 
 export const LoginSchema = z.object({
     email: z.string().email(),
@@ -23,6 +24,7 @@ export const LoginSchema = z.object({
 export default function LoginForm() {
     const [isSubmitting, setSubmitting] = useState(false)
     const router = useRouter()
+    const { setOpen } = useLoginModal()
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
@@ -39,9 +41,9 @@ export default function LoginForm() {
         formData.set("email", values.email)
         formData.set("pass", values.password)
 
-        const {success, message} = await login(formData)
+        const { success, message, role } = await login(formData)
 
-        if(!success){
+        if (!success) {
             toast.error(message)
             setSubmitting(false)
             return
@@ -49,6 +51,9 @@ export default function LoginForm() {
 
         toast.success(message)
         setSubmitting(false)
+
+        setOpen(false)
+        router.push(`/app/account/${role}`)
     }
 
     return (
@@ -104,12 +109,12 @@ export default function LoginForm() {
                     </CardContent>
                     <CardFooter>
                         <div className="space-y-5 flex flex-col w-full">
-                            <Button type="submit" disabled={isSubmitting} className="disabled:bg-slate-600 disabled:cursor-not-allowed"> 
+                            <Button type="submit" disabled={isSubmitting} className="disabled:bg-slate-600 disabled:cursor-not-allowed">
                                 {
                                     isSubmitting ? <div className="flex items-center gap-2.5">
-                                        <Loader2 className="animate-spin" /> 
+                                        <Loader2 className="animate-spin" />
                                         <span>Please Wait</span>
-                                    </div> : 
+                                    </div> :
                                         <span>Login</span>
                                 }
                             </Button>

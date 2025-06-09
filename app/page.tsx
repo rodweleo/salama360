@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Bell, Map, Shield } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
-import RootNav from "@/components/ui/root-nav"
+import RootHeroSection from "@/components/ui/root-hero-section"
+import RootLiveMonitoringSection from "@/components/ui/root-live-monitoring-section"
+import RootFeaturesSection from "@/components/ui/root-features-section"
 
 export default function Home() {
 
   const supabase = createClient();
 
-  async function updateCurrentLocation(slm_usr: string | number, lat, lng) {
+  async function updateCurrentLocation(slm_usr: string | number, lat: number, lng: number) {
     try {
       // Step 1: Check if the device exists in the current_locations table
       const { data: existingRecord, error: selectError } = await supabase
@@ -61,29 +63,21 @@ export default function Home() {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-    
+
   }
-    
+
 
   navigator.geolocation.watchPosition((position: GeolocationPosition) => {
     updateCurrentLocation(1, position.coords.latitude, position.coords.longitude)
   })
   return (
     <div className="flex flex-col min-h-screen">
-      <RootNav/>
       <main className="flex-grow">
-        <section className="py-20">
-          <div className="container mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Predict. Prepare. Protect.</h1>
-            <p className="text-xl mb-8">AI-powered disaster prediction and alert system for a safer tomorrow.</p>
-            <Button size="lg" asChild>
-              <Link href="/signup">Get Started</Link>
-            </Button>
-          </div>
-        </section>
-
+        <RootHeroSection />
+        <RootLiveMonitoringSection />
+        <RootFeaturesSection />
         <section className="py-16 bg-background">
-          <div className="container mx-auto">
+          <div className="container mx-auto hidden">
             <h2 className="text-3xl font-bold text-center mb-12">Our Mission</h2>
             <p className="text-xl text-center max-w-3xl mx-auto">
               To leverage cutting-edge AI technology in predicting and mitigating the impact of natural disasters,
@@ -93,7 +87,7 @@ export default function Home() {
         </section>
 
         <section className="py-16 bg-muted">
-          <div className="container mx-auto">
+          <div className="container mx-auto hidden">
             <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <Card>
@@ -156,18 +150,24 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <Card>
                 <CardContent className="pt-6">
-                  <p className="italic mb-4">
-                    "DisasterGuard's early warning system gave us crucial time to prepare and evacuate safely. It's a game-changer for our community."
-                  </p>
-                  <p className="font-semibold">- Sarah Johnson, Community Leader</p>
+                  <blockquote>
+                    <q>
+                      DisasterGuard&apos;s early warning system gave us crucial time to prepare and evacuate safely. It&apos;s a game-changer for our community.
+                    </q>
+                    <footer>- Sarah Johnson, Community Leader</footer>
+                  </blockquote>
+
                 </CardContent>
               </Card>
               <Card>
                 <CardContent className="pt-6">
-                  <p className="italic mb-4">
-                    "As an emergency responder, the resource management feature has dramatically improved our efficiency in disaster situations."
-                  </p>
-                  <p className="font-semibold">- Mark Thompson, Fire Chief</p>
+                  <blockquote>
+                    <q>
+                      As an emergency responder, the resource management feature has dramatically improved our efficiency in disaster situations.
+                    </q>
+                    <footer>- Mark Thompson, Fire Chief</footer>
+                  </blockquote>
+
                 </CardContent>
               </Card>
             </div>
@@ -178,7 +178,7 @@ export default function Home() {
           <div className="container mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-8">Ready to safeguard your community?</h2>
             <Button size="lg" variant="secondary" asChild>
-              <Link href="/signup">Join DisasterGuard Today</Link>
+              <Link href="/signup">Join salama360 Today</Link>
             </Button>
           </div>
         </section>

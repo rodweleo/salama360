@@ -49,57 +49,57 @@ const navItems = [
         icon: Bell,
         subItems: [
             { name: "Manage Alerts", href: "/app/account/admin/alerts" },
-            { name: "Alert History", href: "/admin/alerts/history" },
-            { name: "Create Alert", href: "/admin/alerts/create" },
+            { name: "Alert History", href: "/app/account/admin/alerts/history" },
+            { name: "Create Alert", href: "/app/account/admin/alerts/create" },
         ],
     },
     {
         name: "Data Management",
         icon: Database,
         subItems: [
-            { name: "Data Entry", href: "/admin/data-entry" },
-            { name: "Data Analysis", href: "/admin/data-analysis" },
-            { name: "Prediction Models", href: "/admin/prediction-models" },
+            { name: "Data Entry", href: "/app/account/admin/data-entry" },
+            { name: "Data Analysis", href: "/app/account//admin/data-analysis" },
+            { name: "Prediction Models", href: "/app/account//admin/prediction-models" },
         ],
     },
     {
         name: "User Management",
-        href: "/app/dashboard/admin/users",
+        href: "/app/account/admin/users",
         icon: Users,
     },
     {
         name: "Resource Management",
         icon: Truck,
         subItems: [
-            { name: "Inventory", href: "/admin/resources/inventory" },
-            { name: "Allocation", href: "/admin/resources/allocation" },
-            { name: "Requests", href: "/admin/resources/requests" },
+            { name: "Inventory", href: "/app/account/admin/resources/inventory" },
+            { name: "Allocation", href: "/app/account/admin/resources/allocation" },
+            { name: "Requests", href: "/app/account/admin/resources/requests" },
         ],
     },
     {
         name: "Evacuation Planning",
         icon: Map,
         subItems: [
-            { name: "Route Planning", href: "/admin/evacuation/routes" },
-            { name: "Safe Zones", href: "/admin/evacuation/safe-zones" },
-            { name: "Evacuation Drills", href: "/admin/evacuation/drills" },
+            { name: "Route Planning", href: "/app/account/admin/evacuation/routes" },
+            { name: "Safe Zones", href: "/app/account/admin/evacuation/safe-zones" },
+            { name: "Evacuation Drills", href: "/app/account/admin/evacuation/drills" },
         ],
     },
     {
         name: "Reports",
         icon: BarChart,
         subItems: [
-            { name: "Incident Reports", href: "/admin/reports/incidents" },
-            { name: "Performance Metrics", href: "/admin/reports/performance" },
-            { name: "System Logs", href: "/admin/reports/logs" },
+            { name: "Incident Reports", href: "/app/account/admin/reports/incidents" },
+            { name: "Performance Metrics", href: "/app/account/admin/reports/performance" },
+            { name: "System Logs", href: "/app/account/admin/reports/logs" },
         ],
     },
     {
         name: "Communication",
         icon: MessageSquare,
         subItems: [
-            { name: "Broadcast Messages", href: "/admin/communication/broadcast" },
-            { name: "Emergency Contacts", href: "/admin/communication/contacts" },
+            { name: "Broadcast Messages", href: "/app/account/admin/communication/broadcast" },
+            { name: "Emergency Contacts", href: "/app/account/admin/communication/contacts" },
         ],
     },
     {
@@ -126,7 +126,7 @@ export function AdminSidebar() {
     const signOut = async () => {
         const { success, message } = await signOutAction()
 
-        if(!success){
+        if (!success) {
             toast.error(message)
             return
         }

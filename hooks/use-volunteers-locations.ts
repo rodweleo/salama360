@@ -19,9 +19,9 @@ export const useVolunteersLocations = () => {
 
                 if (error) {
                     console.error('Error fetching data:', error);
-                } else {
-                    setLocations(data);
                 }
+
+                setLocations(data);
             };
 
             fetchLocations();

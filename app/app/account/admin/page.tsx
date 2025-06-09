@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { AlertTriangle, Truck, Users, Activity } from "lucide-react"
-import {MapContainer} from "@/components/ui/map-container"
+import { MapContainer } from "@/components/ui/map-container"
 
 export default function AdminDashboard() {
     const disasters = {
@@ -16,16 +16,17 @@ export default function AdminDashboard() {
 
     return (
         <div className="w-full">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6">
                 {/* Map Component */}
-                <Card className="md:col-span-2">
+                <div className="bg-gray-200 h-[800px] w-full rounded-lg flex items-center justify-center">
+                    <MapContainer />
+                </div>
+                <Card className="md:col-span-2 hidden">
                     <CardHeader>
                         <CardTitle>Disaster-Prone Areas & Evacuation Routes</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="bg-gray-200 h-[800px] rounded-lg flex items-center justify-center">
-                           <MapContainer/>
-                        </div>
+
                     </CardContent>
                 </Card>
 
@@ -54,13 +55,13 @@ export default function AdminDashboard() {
                         <CardTitle>Current Weather Conditions</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        
+
                     </CardContent>
                 </Card>
 
 
                 {/* Alerts Section */}
-                
+
 
                 {/* Resources Tracker */}
                 <Card>

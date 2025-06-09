@@ -6,8 +6,8 @@ import { ArrowLeftIcon, BriefcaseBusiness, Calendar, MapPin, Medal } from "lucid
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
-export default function Page(){
-    const {job} = useParams()
+export default function Page() {
+    const { job } = useParams()
 
 
     const shareJobPosting = () => {
@@ -17,7 +17,7 @@ export default function Page(){
     return (
         <div>
             <main className="container mx-auto py-10 flex gap-10 justify-between">
-                <Button variant="outline" className="sticky top-28"><Link href="/volunteer" className="flex items-center gap-2.5"> <ArrowLeftIcon/> <span>Back to Jobs</span></Link></Button>
+                <Button variant="outline" className="sticky top-28"><Link href="/volunteer" className="flex items-center gap-2.5"> <ArrowLeftIcon /> <span>Back to Jobs</span></Link></Button>
                 <Card>
                     <CardHeader>
                         <CardTitle>{job}</CardTitle>
@@ -57,18 +57,18 @@ export default function Page(){
                 <Card className="h-fit sticky top-28">
                     <CardContent className="space-y-5">
                         <div className="flex flex-col w-full gap-2.5 mt-5">
-                            <Button className="bg-blue-800">Apply</Button>
+                            <Button>Apply</Button>
                             <Button variant="outline">Generate Specialized CV</Button>
                         </div>
 
                         <ul className="space-y-5">
                             <li>
                                 <div className="flex items-center gap-2">
-                                   <BriefcaseBusiness size={40} className="bg-orange-200 p-2.5 rounded-full"/> 
-                                   <div>
+                                    <BriefcaseBusiness size={40} className="bg-orange-200 p-2.5 rounded-full" />
+                                    <div>
                                         <h3 className="font-medium">Job Type</h3>
                                         <span className="font-bold">Contract</span>
-                                   </div>
+                                    </div>
                                 </div>
                             </li>
 
@@ -77,7 +77,7 @@ export default function Page(){
                                     <MapPin size={40} className="bg-orange-200 p-2.5 rounded-full" />
                                     <div>
                                         <h3 className="font-medium">Location</h3>
-                                        <span className="font-bold">Contract</span>
+                                        <span className="font-bold">N/A</span>
                                     </div>
                                 </div>
                             </li>
@@ -87,7 +87,7 @@ export default function Page(){
                                     <Medal size={40} className="bg-orange-200 p-2.5 rounded-full" />
                                     <div>
                                         <h3 className="font-medium">Job Experience</h3>
-                                        <span className="font-bold">Contract</span>
+                                        <span className="font-bold">N/A</span>
                                     </div>
                                 </div>
                             </li>
@@ -97,7 +97,7 @@ export default function Page(){
                                     <Calendar size={40} className="bg-orange-200 p-2.5 rounded-full" />
                                     <div>
                                         <h3 className="font-medium">Date Posted:</h3>
-                                        <span className="font-bold">Contract</span>
+                                        <span className="font-bold">N/A</span>
                                     </div>
                                 </div>
                             </li>

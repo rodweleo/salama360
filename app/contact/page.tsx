@@ -20,7 +20,7 @@ export default function ContactPage() {
         e.preventDefault()
         // Here you would typically send the form data to your backend
         console.log({ name, email, subject, message })
-        
+
         // Reset form fields
         setName("")
         setEmail("")
@@ -52,7 +52,7 @@ export default function ContactPage() {
                                         <Mail className="mr-4 text-primary" />
                                         <div>
                                             <h3 className="font-semibold">Email</h3>
-                                            <p>info@disasterguard.com</p>
+                                            <p>info@salama360.com</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center">
@@ -66,7 +66,7 @@ export default function ContactPage() {
                                         <MapPin className="mr-4 text-primary" />
                                         <div>
                                             <h3 className="font-semibold">Address</h3>
-                                            <p>123 Safety Street, Resilient City, RC 12345</p>
+                                            <p>Nairobi, Kenya</p>
                                         </div>
                                     </div>
                                 </div>

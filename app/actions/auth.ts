@@ -7,7 +7,7 @@ import { cookies } from "next/headers"
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
-  
+
   const cookie = cookies();
 
   const email = formData.get("email") as string
@@ -18,7 +18,7 @@ export async function login(formData: FormData) {
     password: pass
   })
 
-  
+
   if (error) {
     return {
       success: false,
@@ -28,17 +28,17 @@ export async function login(formData: FormData) {
 
   //get the user role
 
-  async function getUserRole(userId: string){
+  async function getUserRole(userId: string) {
     const { data, error } = await supabase.from("slm_usr_members").select("*").eq("slm_usr_id", userId).limit(1).single();
 
-    if(error){
+    if (error) {
       return {
         role: null,
         message: error.message
       }
     }
 
-    const {roles} = data;
+    const { roles } = data;
 
     return {
       roles
@@ -46,8 +46,18 @@ export async function login(formData: FormData) {
   }
 
   const { roles } = await getUserRole(data.user.id);
-  
-  if (roles && roles.includes("admin")) {
+
+  console.log(roles)
+
+  if (!roles) {
+    return {
+      success: false,
+      message: "User does not have any roles",
+      role: null
+    }
+  }
+
+  if (roles.includes("admin")) {
 
     // Set cookie using the `Set-Cookie` header response
     cookie.set({
@@ -58,12 +68,28 @@ export async function login(formData: FormData) {
     });
 
 
-  return {
-    success: true,
-    message: `Welcome back ${email}`
-  }
+    return {
+      success: true,
+      message: `Welcome back ${email}`,
+      role: "admin"
+    }
+  } else {
 
-}
+    cookie.set({
+      name: "role",
+      value: "user",
+      path: "/app/account/user",
+      httpOnly: true,
+    });
+
+
+    return {
+      success: true,
+      message: `Welcome back ${email}`,
+      role: "user"
+    }
+
+  }
 }
 
 export async function registerUser() {
@@ -75,7 +101,7 @@ export async function registerUser() {
 
 }
 
-export async function resetPasswordAction(){
+export async function resetPasswordAction() {
 
   return {
     success: false,
@@ -83,25 +109,25 @@ export async function resetPasswordAction(){
   }
 }
 
-  export async function signOutAction() {
-    const supabase = await createClient();
+export async function signOutAction() {
+  const supabase = await createClient();
 
-    // Perform sign-out
-    const { error } = await supabase.auth.signOut();
+  // Perform sign-out
+  const { error } = await supabase.auth.signOut();
 
-    if (error) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-
-   
-    const cookieStore = cookies();
-    cookieStore.delete("role"); 
-    
+  if (error) {
     return {
-      success: true,
-      message: "You've been logged out",
-    }
+      success: false,
+      message: error.message,
+    };
   }
+
+
+  const cookieStore = cookies();
+  cookieStore.delete("role");
+
+  return {
+    success: true,
+    message: "You've been logged out",
+  }
+}

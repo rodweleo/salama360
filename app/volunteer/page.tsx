@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import VolunteerOpportunityCard from '@/components/ui/volunteer-opportunity-card'
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+
 const volunteerOpportunities = [
     { id: 1, title: "Emergency Response Team", skills: ["First Aid", "Search and Rescue"], location: "City Center", date: "Ongoing", created_at: "08/08/2024" },
     { id: 2, title: "Disaster Preparedness Workshop Facilitator", skills: ["Public Speaking", "Training"], location: "Community Hall", date: "Every Saturday", created_at: "08/08/2024" },
@@ -18,7 +19,7 @@ export default function Page() {
 
     return (
         <div className="py-10 space-y-10">
-            
+
             <section className="text-center">
                 <h1 className="font-bold text-4xl">Find Volunteer Opportunities</h1>
                 <p>Match your skills and availability with local needs</p>

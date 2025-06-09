@@ -1,11 +1,12 @@
 import { VolunteeringOpportunityProps } from "@/utils/types";
 import { Button } from "./button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./card";
-import { MapPin } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
 import Link from "next/link"
-export default function VolunteerOpportunityCard({opportunity}: {
+
+export default function VolunteerOpportunityCard({ opportunity }: {
     opportunity: VolunteeringOpportunityProps
-}){
+}) {
 
     const slug = opportunity.title.toLowerCase().replaceAll(" ", "-")
     return (
@@ -13,13 +14,13 @@ export default function VolunteerOpportunityCard({opportunity}: {
             <CardHeader>
                 <CardTitle>{opportunity.title}</CardTitle>
                 <CardDescription>
-                    <div className="flex items-center gap-1"><MapPin size={14}/> {opportunity.location}</div>
+                    <div className="flex items-center gap-1"><MapPin size={14} /> {opportunity.location}</div>
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-5">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam nihil repellendus magni repudiandae quae, excepturi eius architecto dolores veritatis maxime natus voluptate, enim esse. Quis dolor quas perspiciatis obcaecati aspernatur.</p>
-                    <Button><Link href={`/volunteer/${slug}`}>Apply</Link></Button>
+                    <Button><Link href={`/volunteer/${slug}`} className="flex items-center gap-2.5"><span>Apply</span> <ExternalLink /> </Link></Button>
                 </div>
             </CardContent>
             <CardFooter className="flex gap-2.5 justify-between">

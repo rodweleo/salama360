@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {Bell, Map, Shield, BarChart, Users, Phone, BookOpen } from "lucide-react"
+import { Bell, Map, Shield, BarChart, Users, Phone, BookOpen } from "lucide-react"
 
 export default function FeaturesPage() {
   return (
@@ -128,7 +128,7 @@ export default function FeaturesPage() {
 
         <section className="py-16 bg-muted">
           <div className="container mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-8">Experience the Power of DisasterGuard</h2>
+            <h2 className="text-3xl font-bold mb-8">Experience the Power of Salama360</h2>
             <p className="text-xl mb-8 max-w-3xl mx-auto">
               Our comprehensive suite of features is designed to empower communities, emergency responders, and
               individuals with the tools they need to predict, prepare for, and respond to natural disasters effectively.
